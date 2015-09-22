@@ -21,6 +21,8 @@ export function setup() {
     })
     .state(deepFreeze(initialState))
     .actions({
+      loadTodos,
+      setTodos,
       route,
       setNewTodo,
       addTodo,
@@ -40,6 +42,10 @@ export function setup() {
       renderTodoCountHTML
     })
     .sideEffects({
+      loadTodosFromLocalStorage,
+      saveTodosToLocalStorage
+    })
+    .sideEffects({
       toggleMain,
       renderTodoListToDOM,
       renderTodoCountToDOM,
@@ -55,6 +61,10 @@ export function setup() {
 // ## State
 
 export const initialState = {
+  persist: {
+    loading: false,
+    storageKey: null
+  },
   model: {
     todos: [],
     newTodo: "",
@@ -77,6 +87,20 @@ export const initialState = {
 
 // ## Actions
 // (...args) -> (state) -> state
+
+export function loadTodos(key) {
+  return chain(
+    update("persist.loading", true),
+    update("persist.storageKey", key)
+  )
+}
+
+export function setTodos(newTodos) {
+  return chain(
+    update("persist.loading", false),
+    update("model.todos", todos => newTodos || todos)
+  )
+}
 
 export function route(hash) {
   return update("model.filter", hash.replace(/^#?/, '') || '/')
@@ -140,6 +164,7 @@ export function toggleAll(done) {
 // ### Simple predicate functions
 // (state, prev) -> boolean
 
+const startLoad = (state, prev) => state.persist.loading && !prev.persist.loading
 const hasTodos = (state) => state.model.todos.length
 const todosChanged = (state, prev) => state.model.todos !== prev.model.todos
 const editStarted = (state, prev) => state.model.editTodo.index != null && prev.model.editTodo.index == null
@@ -212,6 +237,26 @@ export const renderTodoCountHTML = {
 
 // ## Side Effects
 // (state, prev, dispatchers) -> void
+
+export const loadTodosFromLocalStorage = {
+  when: startLoad,
+
+  then: ({persist}, xx, dispatch) => {
+    setTimeout(() => dispatch.setTodos(JSON.parse(localStorage.getItem(persist.storageKey))), 0)
+  }
+}
+
+export const saveTodosToLocalStorage = {
+  when: todosChanged,
+
+  then: ({persist, model}) => {
+    if (model.todos.length) {
+      localStorage.setItem(persist.storageKey, JSON.stringify(model.todos))
+    } else {
+      localStorage.removeItem(persist.storageKey)
+    }
+  }
+}
 
 export const toggleMain = {
   requiresCalculation: ["countTodos"],
@@ -309,7 +354,10 @@ export function bindings(dispatch) {
 
     .on("click", ".toggle-all", ({target}) => dispatch.toggleAll(target.checked))
 
-    .ready(() => dispatch.route(location.hash))
+    .ready(() => {
+      dispatch.route(location.hash)
+      dispatch.loadTodos('fluxlet-todos')
+    })
 
   $(window)
     .on("hashchange", () => dispatch.route(location.hash))
