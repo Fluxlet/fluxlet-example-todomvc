@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Fluxlet example - TodoMVC",
   "scripts": {
-    "serveit": "browser-sync start --files '*.html,css/*.css,js/**/*.js' --server ''",
+    "postinstall": "jspm install",
+    "serve": "browser-sync start --files '*.html,css/*.css,js/**/*.js' --server ''",
     "buildMode": "jspm bundle startup + dropdown/dropdown --inject",
     "buildSafeMode": "jspm bundle-sfx startup + dropdown/dropdown safe-bundle.js",
     "devMode": "jspm unbundle"
@@ -13,7 +14,6 @@
     "jspm": "^0.16.2"
   },
   "jspm": {
-    "directories": {},
     "dependencies": {
       "jquery": "github:components/jquery@^2.1.4"
     },
