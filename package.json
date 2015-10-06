@@ -7,11 +7,21 @@
     "serve": "browser-sync start --files '*.html,css/*.css,js/**/*.js' --server ''",
     "buildMode": "jspm bundle startup + dropdown/dropdown --inject",
     "buildSafeMode": "jspm bundle-sfx startup + dropdown/dropdown safe-bundle.js",
-    "devMode": "jspm unbundle"
+    "devMode": "jspm unbundle",
+    "test": "karma start --single-run"
   },
   "devDependencies": {
+    "babel": "^5.8.23",
     "browser-sync": "^2.9.3",
-    "jspm": "^0.16.2"
+    "jspm": "^0.16.2",
+    "karma": "^0.13.10",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-cli": "^0.1.1",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jspm": "^2.0.1",
+    "karma-mocha": "^0.2.0",
+    "karma-phantomjs2-launcher": "^0.3.2",
+    "mocha": "^2.3.3"
   },
   "jspm": {
     "dependencies": {
@@ -22,7 +32,11 @@
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "chai": "npm:chai@^3.3.0",
+      "core-js": "npm:core-js@^1.1.4",
+      "fluxlet-testlet": "github:fluxlet/fluxlet-testlet@master",
+      "sinon": "npm:sinon@^1.17.1",
+      "sinon-chai": "npm:sinon-chai@^2.8.0"
     }
   },
   "author": "Mark Gibson <mgibson@adaptavist.com>",
