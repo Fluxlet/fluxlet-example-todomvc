@@ -1,13 +1,15 @@
 # Fluxlet Example - TodoMVC
 
-This is an implementation of [TodoMVC](http://todomvc.com/) using the Fluxlet
-framework.
+This is an implementation of [TodoMVC](http://todomvc.com/) using the
+[Fluxlet](https://github.com/fluxlet/fluxlet) framework.
+
+The majority of the code can be found in [app.js](js/app.js).
 
 ## Setup
 
     $ npm install
 
-Will install all npm dependencies, including jspm,
+Will install all npm dependencies, including [jspm](http://jspm.io),
 and then perform a jspm install.
 
 ## Run it

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Fluxlet example - TodoMVC",
   "scripts": {
-    "postinstall": "jspm install",
+    "postinstall": "jspm install -y",
     "serve": "browser-sync start --files '*.html,css/*.css,js/**/*.js' --server ''",
     "buildMode": "jspm bundle startup + dropdown/dropdown --inject",
     "buildSafeMode": "jspm bundle-sfx startup + dropdown/dropdown safe-bundle.js",
@@ -15,6 +15,8 @@
   },
   "jspm": {
     "dependencies": {
+      "fluxlet": "github:fluxlet/fluxlet@master",
+      "fluxlet-immutable": "github:fluxlet/fluxlet-immutable@master",
       "jquery": "github:components/jquery@^2.1.4"
     },
     "devDependencies": {
